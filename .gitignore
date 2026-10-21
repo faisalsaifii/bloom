@@ -1,0 +1,19 @@
+# Godot
+.godot/
+*.translation
+export_credentials.cfg
+
+# Builds
+build/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Python / tools
+__pycache__/
+*.pyc
+
+# OS
+Thumbs.db
+.DS_Store

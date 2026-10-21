@@ -22,6 +22,7 @@ boot_splash/fullsize=true
 boot_splash/use_filter=true
 config/icon="res://assets/branding/icon.png"
 config/windows_native_icon="res://assets/branding/icon.ico"
+config/quit_on_go_back=false
 
 [autoload]
 

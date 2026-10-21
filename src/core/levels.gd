@@ -89,10 +89,10 @@ static func build(n: int) -> Dictionary:
 			if rng.randf() < spike_chance and i > 0 and i < count - 1:
 				var teeth := rng.randi_range(1, 1 + int(d * 4.2))
 				var sw := teeth * SPIKE_W
-				w = maxf(w, sw + 170.0)
+				w = maxf(w, sw + 200.0)
 				w = roundf(w / 12.0) * 12.0
-				var room_l := 70.0
-				var room_r := 80.0
+				var room_l := 105.0
+				var room_r := 90.0
 				var off := rng.randf_range(room_l, maxf(room_l, w - room_r - sw))
 				spikes.append({"off": roundf(off / 4.0) * 4.0, "w": sw})
 		# Vertical placement.

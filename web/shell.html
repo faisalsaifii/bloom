@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a20">
+<meta name="description" content="Bloom - hop, glow and collect. A neon platformer where everything glows.">
+<title>Bloom</title>
+<style>
+html, body, #canvas { margin: 0; padding: 0; border: 0; width: 100%; height: 100%; overflow: hidden; background: #0b0a20; }
+body { touch-action: none; color: #cfd6ff; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#canvas { display: block; outline: none; }
+#status {
+	position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+	background: radial-gradient(ellipse at 50% 40%, #1a1f4a 0%, #0b0a20 70%); visibility: hidden; gap: 28px;
+}
+#status-splash { width: min(70vw, 560px); height: auto; filter: drop-shadow(0 0 28px rgba(120, 200, 255, .45)); animation: float 3.2s ease-in-out infinite; }
+#status-track { width: min(60vw, 360px); height: 8px; border-radius: 8px; background: rgba(255,255,255,.12); overflow: hidden; }
+#status-bar { width: 0%; height: 100%; border-radius: 8px; background: linear-gradient(90deg, #38e8ff, #b57bff, #ff4fd8); box-shadow: 0 0 14px #38e8ff; transition: width .15s ease-out; }
+#status-notice { font-size: 14px; opacity: .8; text-align: center; max-width: 80vw; display: none; }
+#rotate {
+	position: absolute; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column;
+	background: #0b0a20; color: #cfd6ff; font-size: 20px; gap: 16px; z-index: 5; text-align: center;
+}
+#rotate .ph { width: 54px; height: 90px; border: 4px solid #38e8ff; border-radius: 12px; box-shadow: 0 0 18px #38e8ff; animation: turn 2.2s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+@keyframes turn { 0%,30% { transform: rotate(0) } 70%,100% { transform: rotate(-90deg) } }
+@media (orientation: portrait) and (max-width: 820px) { #rotate { display: flex; } }
+</style>
+$GODOT_HEAD_INCLUDE
+</head>
+<body>
+<canvas id="canvas">Your browser does not support HTML5 canvas.</canvas>
+<noscript>Bloom needs JavaScript to run.</noscript>
+<div id="rotate"><div class="ph"></div><div>Rotate your device to play Bloom</div></div>
+<div id="status">
+	<img id="status-splash" src="$GODOT_SPLASH" alt="Bloom">
+	<div id="status-track"><div id="status-bar"></div></div>
+	<div id="status-notice"></div>
+</div>
+
+<script src="$GODOT_URL"></script>
+<script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const engine = new Engine(GODOT_CONFIG);
+const statusEl = document.getElementById('status');
+const barEl = document.getElementById('status-bar');
+const noticeEl = document.getElementById('status-notice');
+
+function showNotice(msg) { noticeEl.style.display = 'block'; noticeEl.textContent = msg; }
+
+(function init() {
+	const missing = Engine.getMissingFeatures();
+	if (missing.length !== 0) {
+		statusEl.style.visibility = 'visible';
+		barEl.parentElement.style.display = 'none';
+		showNotice('Your browser cannot run Bloom (missing: ' + missing.join(', ') + '). Please try an up-to-date browser.');
+		return;
+	}
+	statusEl.style.visibility = 'visible';
+	engine.startGame({
+		onProgress: function (current, total) {
+			barEl.style.width = (total > 0 ? Math.round(current / total * 100) : 50) + '%';
+		},
+	}).then(function () {
+		statusEl.style.transition = 'opacity .5s';
+		statusEl.style.opacity = '0';
+		setTimeout(function () { statusEl.style.display = 'none'; }, 520);
+	}, function (err) {
+		barEl.parentElement.style.display = 'none';
+		showNotice('Bloom failed to start: ' + err.message);
+	});
+})();
+</script>
+</body>
+</html>

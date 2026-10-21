@@ -111,5 +111,10 @@ if __name__ == "__main__":
     make_splash().save(os.path.join(OUT, "splash.png"))
     make_logo().save(os.path.join(OUT, "logo.png"))
     icon.resize((256, 256), Image.LANCZOS).save(os.path.join(OUT, "icon_256.png"))
+    rounded_big = rounded(icon, 112)
+    for px in (144, 180, 192, 512):
+        rounded_big.resize((px, px), Image.LANCZOS).save(os.path.join(OUT, f"icon_{px}.png"))
+    # Store/iOS icons must be square and opaque (the OS applies its own mask)
+    make_icon(1024).save(os.path.join(OUT, "icon_1024_square.png"))
     icon.save(os.path.join(OUT, "icon.ico"), sizes=[(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
     print("art generated in", OUT)

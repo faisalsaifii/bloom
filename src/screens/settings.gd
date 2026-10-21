@@ -114,7 +114,7 @@ func _confirm_reset() -> void:
 	var c := CenterContainer.new()
 	c.set_anchors_preset(Control.PRESET_FULL_RECT)
 	veil.add_child(c)
-	var p := UI.panel(UI.DANGER)
+	var p := UI.panel(UI.DANGER, 28, true)
 	var m := MarginContainer.new()
 	for side in ["left", "right", "top", "bottom"]:
 		m.add_theme_constant_override("margin_" + side, 36)

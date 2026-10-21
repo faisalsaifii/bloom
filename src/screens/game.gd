@@ -36,6 +36,7 @@ var platform_styles := {}
 var result_shown := false
 var _finish_emit := 0.0
 var _hint: Label
+var _bot: Bot  # debug autoplay only (BLOOM_AUTOPLAY=1 in a debug build)
 
 
 func setup(args: Dictionary) -> void:
@@ -52,6 +53,8 @@ func build() -> void:
 	tm = lvl.theme
 	skin = Skins.get_skin(Save.equipped)
 	sim = Sim.new(lvl)
+	if OS.is_debug_build() and OS.get_environment("BLOOM_AUTOPLAY") == "1":
+		_bot = Bot.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_make_styles()
 
@@ -112,7 +115,6 @@ func _plat_style(c: Color, glow_a: float) -> StyleBoxFlat:
 
 func _intro() -> void:
 	var box := VBoxContainer.new()
-	box.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	var vs := get_viewport_rect().size
 	box.position = Vector2(vs.x * 0.5 - 250, 130)
 	box.custom_minimum_size = Vector2(500, 0)
@@ -144,7 +146,6 @@ func _intro() -> void:
 		hint = "Crumbling platforms fall after you land. Keep moving!"
 	if hint != "":
 		_hint = UI.label(hint, 28, UI.TEXT, 500)
-		_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 		_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_hint.size = Vector2(900, 40)
 		_hint.position = Vector2(vs.x * 0.5 - 450, vs.y * 0.30)
@@ -170,7 +171,12 @@ func _process(delta: float) -> void:
 		match state:
 			"play":
 				var dir := Input.get_axis("left", "right")
-				sim.advance(delta, dir, Input.is_action_pressed("jump"))
+				var jump := Input.is_action_pressed("jump")
+				if _bot:
+					var d := _bot.decide(sim)
+					dir = d.x
+					jump = d.y > 0.5
+				sim.advance(delta, dir, jump)
 				if sim.alive and not sim.finished:
 					Skins.emit_trail(ps, skin, sim.pos, sim.vel, t, delta)
 			"dead":
@@ -434,7 +440,7 @@ func _draw_hud() -> void:
 	var sb := UI.glass(UI.GOLD, 34, 0.07, 0.45, 0.0)
 	hud.draw_style_box(sb, Rect2(-pw * 0.5, -34.0, pw, 68.0))
 	Fx.halo(hud, Vector2(-pw * 0.5 + 38.0, 0), 28.0, Color(1, 0.8, 0.2, 0.35))
-	Icons.coin(hud, Vector2(-pw * 0.5 + 38.0, 0), 16.0)
+	Icons.coin(hud, Vector2(size.x * 0.5, py + 34.0) + Vector2(-pw * 0.5 + 38.0, 0) * scale_k, 16.0 * scale_k)
 	hud.draw_set_transform(Vector2(size.x * 0.5, py + 34.0), 0.0, Vector2(scale_k, scale_k))
 	hud.draw_string(f, Vector2(-pw * 0.5 + 66.0, fs * 0.36), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color.WHITE)
 	hud.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
@@ -525,7 +531,7 @@ func _make_overlay(accent: Color, width := 560) -> VBoxContainer:
 	var c := CenterContainer.new()
 	c.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(c)
-	var p := UI.panel(accent, 34)
+	var p := UI.panel(accent, 34, true)
 	p.custom_minimum_size = Vector2(width, 0)
 	c.add_child(p)
 	var mg := MarginContainer.new()
@@ -667,6 +673,13 @@ func _show_results() -> void:
 		var done := GlowButton.make("You did it!", UI.GOLD, 32, Vector2(300, 84))
 		done.pressed.connect(_to_levels)
 		row.add_child(done)
+
+
+## Debug helper (used by BLOOM_SHOTS captures): jump straight to the finish line.
+func _debug_win() -> void:
+	sim.coins_got = sim.total_coins()
+	sim.pos = lvl.finish + Vector2(0, -Sim.R)
+	sim.vel = Vector2.ZERO
 
 
 func _fmt_time(s: float) -> String:

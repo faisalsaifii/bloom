@@ -24,7 +24,6 @@ func build() -> void:
 	_logo.texture = load("res://assets/branding/logo.png")
 	_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_logo.set_anchors_preset(Control.PRESET_CENTER)
 	_logo.custom_minimum_size = Vector2(760, 380)
 	_logo.size = Vector2(760, 380)
 	_logo.position = (get_viewport_rect().size - _logo.size) * 0.5 + Vector2(0, -20)
@@ -34,7 +33,6 @@ func build() -> void:
 	add_child(_logo)
 
 	_tap = UI.label("tap to start" if OS.has_feature("web") else "everything glows", 28, UI.TEXT_DIM, 400)
-	_tap.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	_tap.position = Vector2(get_viewport_rect().size.x * 0.5 - 100, get_viewport_rect().size.y - 110)
 	_tap.modulate.a = 0.0
 	add_child(_tap)

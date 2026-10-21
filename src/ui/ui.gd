@@ -46,9 +46,15 @@ static func glass(accent := ACCENT, radius := 24, fill := 0.07, border := 0.35, 
 	return s
 
 
-static func panel(accent := ACCENT, radius := 28) -> PanelContainer:
+static func panel(accent := ACCENT, radius := 28, opaque := false) -> PanelContainer:
 	var p := PanelContainer.new()
-	p.add_theme_stylebox_override("panel", glass(accent, radius, 0.06, 0.3, 0.0))
+	var s := glass(accent, radius, 0.06, 0.3, 0.0)
+	if opaque:
+		s.bg_color = Color(0.06, 0.07, 0.17, 0.96)
+		s.border_color = Color(accent.r, accent.g, accent.b, 0.55)
+		s.shadow_color = Color(accent.r, accent.g, accent.b, 0.25)
+		s.shadow_size = 24
+	p.add_theme_stylebox_override("panel", s)
 	return p
 
 

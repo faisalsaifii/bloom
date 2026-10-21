@@ -26,6 +26,9 @@ func _run_shots(list: PackedStringArray) -> void:
 		var wait := float(p[2]) if p.size() > 2 else 1.2
 		var act := p[3] if p.size() > 3 else ""
 		await get_tree().create_timer(0.3).timeout
+		if act.begins_with("call-"):
+			Nav.current.call(act.substr(5))
+			act = ""
 		if act != "":
 			for a in act.split("+"):
 				Input.action_press(a)

@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/play", "destination": "/play/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/play/(.*)",

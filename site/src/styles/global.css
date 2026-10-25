@@ -53,6 +53,11 @@ h3 { font-weight: 600; letter-spacing: -.02em; line-height: 1.2; }
 .btn.lg > span { width: 58px; height: 58px; font-size: 24px; }
 .ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
 .ctas.c { justify-content: center; }
+.dls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 22px; }
+.dl { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 15px; color: var(--fg); background: #0a0923; border: 1.5px solid rgba(255, 255, 255, .16); transition: border-color .3s, box-shadow .3s, translate .25s; }
+.dl svg { width: 20px; height: 20px; fill: currentColor; }
+.dl small { font-size: 12px; opacity: .6; font-weight: 500; }
+.dl:hover { border-color: var(--a); box-shadow: 0 0 36px -8px var(--a); translate: 0 -2px; }
 .spark { position: fixed; z-index: 200; width: 7px; height: 7px; margin: -3px; border-radius: 50%; pointer-events: none; background: hsl(var(--h) 100% 70%); box-shadow: 0 0 10px hsl(var(--h) 100% 65%); animation: burst .8s cubic-bezier(.1,.8,.3,1) forwards; }
 @keyframes burst { to { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; } }
 

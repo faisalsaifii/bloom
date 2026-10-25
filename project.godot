@@ -59,3 +59,7 @@ textures/canvas_textures/default_texture_filter=2
 viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.0431373, 0.0392157, 0.12549, 1)
 textures/vram_compression/import_etc2_astc=true
+
+[audio]
+
+general/default_playback_type.web=0

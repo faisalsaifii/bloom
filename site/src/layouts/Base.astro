@@ -1,0 +1,31 @@
+---
+import '@fontsource-variable/fraunces/wght-italic.css';
+import '@fontsource/dm-mono/400.css';
+import '@fontsource/dm-mono/500.css';
+import '../styles/global.css';
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#07061a" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta property="og:title" content="Bloom — Everything glows" />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content="/assets/logo.png" />
+		<link rel="icon" href="/assets/icon_256.png" />
+		<link rel="preload" href="/assets/Outfit.ttf" as="font" type="font/ttf" crossorigin />
+	</head>
+	<body>
+		<div class="c-dot" aria-hidden="true"></div>
+		<div class="c-ring" aria-hidden="true"></div>
+		<slot />
+		<script>
+			import '../scripts/ui';
+		</script>
+	</body>
+</html>

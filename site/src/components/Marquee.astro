@@ -1,0 +1,9 @@
+---
+const words = ['Hop', 'Dodge', 'Collect', 'Glow', 'Repeat'];
+const run = Array(6).fill(words).flat();
+---
+<div class="marq" aria-hidden="true">
+	<div class="track">
+		{run.map((w) => <span>{w}<i>✦</i></span>)}
+	</div>
+</div>

@@ -1,0 +1,14 @@
+---
+const star = 'M32 4l8.2 17.4 19 2.4-14 13.2 3.6 18.9L32 46.6 15.2 55.9l3.6-18.9-14-13.2 19-2.4z';
+---
+<section class="sec cta-sec" id="play">
+	<div class="ring" aria-hidden="true"><i></i><i></i><i></i></div>
+	<div class="wrap narrow rv">
+		<div class="fstars" aria-hidden="true">
+			{[1, 2, 3].map((i) => <svg viewBox="0 0 64 64" style={`--i:${i}`}><path d={star} /></svg>)}
+		</div>
+		<h2 class="big">Ready to <em class="glow">bloom?</em></h2>
+		<div class="ctas c"><a class="btn lg" href="/play/">Play now <span>→</span></a></div>
+		<p class="small">Web, Windows, Linux, macOS and Android. Keyboard, gamepad or touch.</p>
+	</div>
+</section>

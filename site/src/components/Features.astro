@@ -1,0 +1,39 @@
+---
+import { SKINS, skinSvg } from '../data/skins';
+const ramp = ['#2ac8ff', '#5f8bff', '#a066ff', '#e45bd0', '#ff5a7e'];
+const dots = Array.from({ length: 40 }, (_, i) => ({ k: ramp[Math.floor((i % 10) / 2)], d: ((i % 10) + Math.floor(i / 10)) * 0.12 }));
+---
+<section class="sec" id="features">
+	<div class="wrap">
+		<div class="grid3">
+			<article class="card rv" style="--d:0s">
+				<div class="viz dots">{dots.map((d) => <i style={`--k:${d.k};--d:${d.d}s`}></i>)}</div>
+				<h3>100 levels</h3>
+				<p>Procedurally generated, the same for everyone, and every one is beatable. Difficulty climbs from Easy to Insane.</p>
+			</article>
+			<article class="card rv" style="--d:.1s">
+				<div class="viz trio">
+					<svg viewBox="0 0 64 64" style="--c:#22e6ff;--r:0s"><circle cx="32" cy="32" r="22" fill="#d9fbff" stroke="#22e6ff" stroke-width="5" /></svg>
+					<svg viewBox="0 0 64 64" style="--c:#ff4fd8;--r:-.8s"><rect x="12" y="12" width="40" height="40" rx="9" fill="#ffd6f6" stroke="#ff4fd8" stroke-width="5" /></svg>
+					<svg viewBox="0 0 64 64" style="--c:#ffd23f;--r:-1.6s"><polygon points="32,6 57,52 7,52" fill="#fff6cf" stroke="#ffd23f" stroke-width="5" stroke-linejoin="round" /></svg>
+				</div>
+				<h3>12 characters</h3>
+				<p>Spend the coins you collect on new heroes, each with its own shape and trail.</p>
+			</article>
+			<article class="card rv" style="--d:.2s">
+				<div class="viz eq">{Array.from({ length: 16 }, (_, i) => <i style={`--d:${-i * 0.11}s;--h:${30 + Math.abs(Math.sin(i * 0.9)) * 70}%`}></i>)}</div>
+				<h3>Original sound</h3>
+				<p>Every effect and both music loops are synthesised from scratch. No samples, no ads, no tracking.</p>
+			</article>
+		</div>
+
+		<ul class="chars" id="characters" aria-label="Characters">
+			{SKINS.map((s, i) => (
+				<li class="rv" style={`--c:${s.c1};--d:${i * 0.05}s;--b:${-i * 0.35}s`}>
+					<svg viewBox="0 0 64 64" aria-hidden="true" set:html={skinSvg(s)} />
+					<span>{s.name}</span>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>
